@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "scripts": {
+    "bootstrap": "pnpm i",
+    "clean": "rimraf packages/**/dist",
+    "build": "pnpm clean && pnpm -r run build",
+    "lint": "pnpm -r run lint"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "esbuild": "^0.23.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.30.0",
+    "minimist": "^1.2.8",
+    "rimraf": "^6.0.1",
+    "shelljs": "^0.8.5",
+    "typescript": "^4.9.5"
+  },
+  "overrides": {
+    "esbuild": "^0.23.1"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.8"
+  }
+}
