@@ -1,0 +1,58 @@
+{
+  "name": "@weejs/plugin-define",
+  "version": "0.0.1",
+  "description": "Weejs Plugin Define",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.mjs",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .ts",
+    "clean": "rimraf ./dist",
+    "build:types": "tsc -p ./tsconfig.json --emitDeclarationOnly",
+    "build:bundle": "node ./build.js --target=es2022 --platform=node",
+    "build": "pnpm lint && pnpm build:bundle && pnpm build:types",
+    "dev": "pnpm build:bundle -w",
+    "test": "node ./tests/index.js --mode=development --type=weapp"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangtianxia/weejs.git",
+    "directory": "packages/plugin-define"
+  },
+  "keywords": [
+    "weejs",
+    "@weejs/plugin-define"
+  ],
+  "author": "yangtianxia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yangtianxia/weejs/issues"
+  },
+  "homepage": "https://github.com/yangtianxia/weejs#readme",
+  "peerDependencies": {
+    "@tarojs/service": "^4.0.5"
+  },
+  "devDependencies": {
+    "@tarojs/service": "^4.0.5"
+  },
+  "dependencies": {
+    "@txjs/shared": "^0.0.15",
+    "@weejs/plugin-utils": "workspace:*",
+    "@weejs/tsconfig": "workspace:*",
+    "shelljs": "^0.8.5"
+  }
+}
