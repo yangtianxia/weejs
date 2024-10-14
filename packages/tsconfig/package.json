@@ -1,0 +1,30 @@
+{
+  "name": "@weejs/tsconfig",
+  "version": "0.0.1",
+  "description": "Typescript tsconfig",
+  "main": "./tsconfig.json",
+  "files": [
+    "tsconfig.json",
+    "tsconfig.app.json",
+    "tsconfig.node.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangtianxia/weejs.git",
+    "directory": "packages/tsconfig"
+  },
+  "keywords": [
+    "weejs",
+    "@weejs/tsconfig"
+  ],
+  "author": "yangtianxia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yangtianxia/weejs/issues"
+  },
+  "homepage": "https://github.com/yangtianxia/weejs#readme"
+}
