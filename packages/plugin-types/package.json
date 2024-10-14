@@ -1,0 +1,53 @@
+{
+  "name": "@weejs/plugin-types",
+  "version": "0.0.1",
+  "description": "Weejs Types Plugin",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.mjs",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.mjs",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .ts",
+    "build:types": "tsc -p ./tsconfig.json --emitDeclarationOnly",
+    "build:bundle": "node ./build.js --target=es2022 --platform=node",
+    "build": "pnpm lint && pnpm build:bundle && pnpm build:types",
+    "dev": "pnpm build:bundle -w"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangtianxia/weejs.git",
+    "directory": "packages/plugin-types"
+  },
+  "keywords": [
+    "weejs",
+    "@weejs/plugin-types"
+  ],
+  "author": "yangtianxia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yangtianxia/weejs/issues"
+  },
+  "homepage": "https://github.com/yangtianxia/weejs#readme",
+  "dependencies": {
+    "@txjs/bool": "^0.0.9",
+    "@weejs/plugin-define": "workspace:*",
+    "@weejs/plugin-environment": "workspace:*",
+    "@weejs/plugin-utils": "workspace:*",
+    "@weejs/tsconfig": "workspace:*",
+    "json-ts": "^1.6.4",
+    "shelljs": "^0.8.5"
+  }
+}
