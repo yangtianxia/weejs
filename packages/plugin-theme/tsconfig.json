@@ -1,0 +1,9 @@
+{
+	"extends": "@weejs/tsconfig/tsconfig.node",
+	"compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true
+  },
+  "include": ["src/**/*.ts*"],
+  "exclude": ["**/node_modules", "**/.*/"]
+}
