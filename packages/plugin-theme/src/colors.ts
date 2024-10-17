@@ -1,12 +1,11 @@
+import shell from 'shelljs'
 import extend from 'extend'
-import { cosmiconfig } from 'cosmiconfig'
+import { cosmiconfigSync } from 'cosmiconfig'
 import { generate, presetPalettes } from '@ant-design/colors'
-import { getMpEnv, type MpEnv } from '@weejs/plugin-utils'
+import { processResolve, getMpEnv, type MpEnv } from '@weejs/plugin-utils'
 import { omit } from '@txjs/shared'
 import { isFunction, isPlainObject } from '@txjs/bool'
 import type { PresetColorPalettes } from './interface'
-
-const explorer = cosmiconfig('condition')
 
 const defaultColors = {
 	black: '#000000',
@@ -84,19 +83,25 @@ const parse = (config: Partial<Omit<PresetColorPalettes, MpEnv>> = {}) => {
 	return { light, dark }
 }
 
-export const getColorPalettes = async () => {
+export const getColorPalettes = () => {
 	const config = {
 		blockLightBackground: '#FFFFFF',
 		blockDarkBackground: '#171717',
 		grey: defaultGreyColors
 	} as PresetColorPalettes
-	const result = await explorer.search()
 
-	if (result) {
-		if (isFunction(result.config)) {
-			extend(true, config, result.config())
-		} else if (isPlainObject(result.config)) {
-			extend(true, config, result.config)
+	// 加载配置
+	if (shell.test('-e', processResolve('weejs/themerc.ts'))) {
+		const explorer = cosmiconfigSync('theme', {
+			cache: false
+		})
+		const result = explorer.load('weejs/themerc.ts')
+		if (result) {
+			if (isFunction(result.config)) {
+				extend(true, config, result.config())
+			} else if (isPlainObject(result.config)) {
+				extend(true, config, result.config)
+			}
 		}
 	}
 

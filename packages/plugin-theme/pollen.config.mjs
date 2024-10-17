@@ -62,8 +62,8 @@ const formatterColor = (palettes = {}) => {
     )
 }
 
-export default defineConfig(async (defaultConfig) => {
-  const colorPalettes = await getColorPalettes()
+export default defineConfig((defaultConfig) => {
+  const colorPalettes = getColorPalettes()
   const modules = pick(defaultConfig, [
     'size',
     'radius',
