@@ -28,7 +28,7 @@ export class PlatformEnv {
 	#PREFIX = 'w'
 	#config = {} as PlatformEnvOption
 	#env = {} as Env
-	#updated = false
+	#cached = false
 	#loaded = false
 
 	#fsWatcher: FSWatcher | null = null
@@ -60,20 +60,20 @@ export class PlatformEnv {
 				ignoreInitial: true,
 				cwd: '.'
 			}).on('all', (args) => {
-				this.updated()
+				this.clearCache()
 				this.#config.watchListener?.(args)
 			})
 		}
 	}
 
-	updated() {
+	clearCache() {
 		if (this.#loaded) {
-			this.#updated = true
+			this.#cached = true
 		}
 	}
 
 	loadEnv() {
-		if (!this.#loaded || this.#updated) {
+		if (!this.#loaded || this.#cached) {
 			const envConfig = {
 				WEEJS_PREFIX: this.#PREFIX
 			} as Env
@@ -132,7 +132,7 @@ export class PlatformEnv {
 					}, {} as Env
 				)
 			this.#loaded = true
-			this.#updated = false
+			this.#cached = false
 		}
 
 		return this.#env
