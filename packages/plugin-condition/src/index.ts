@@ -1,7 +1,7 @@
 import shell from 'shelljs'
 import extend from 'extend'
 import definePlugin from '@weejs/plugin-define'
-import { cosmiconfig } from 'cosmiconfig'
+import { cosmiconfigSync } from 'cosmiconfig'
 import { isNil, isFunction, isArray } from '@txjs/bool'
 import { toArray } from '@txjs/shared'
 import { processResolve, toJSON } from '@weejs/plugin-utils'
@@ -9,8 +9,6 @@ import { fieldMap, fileNameMap } from './utils'
 import type { ConditionOption } from './interface'
 
 export * from './interface'
-
-const explorer = cosmiconfig('condition')
 
 export default definePlugin((ctx) => {
 	const fileName = Reflect.get(fileNameMap, ctx.mpEnv)
@@ -88,10 +86,18 @@ export default definePlugin((ctx) => {
 		return path
 	}
 
-	const build = async () => {
-		const result = await explorer.search()
+	const build = () => {
+		if (!shell.test('-e', processResolve('weejs/conditionrc.ts'))) {
+			return
+		}
 
-		// 加载配置为空
+		const explorer = cosmiconfigSync('condition', {
+			cache: false
+		})
+		// 加载配置
+		const result = explorer.load('weejs/conditionrc.ts')
+
+		// 配置为空
 		if (!result) {
 			return
 		}
@@ -115,10 +121,7 @@ export default definePlugin((ctx) => {
 			let config = {} as Record<string, any>
 
 			// 忽略不支持私有化配置的平台
-			if (
-				!['weapp', 'qq', 'tt', 'alipay'].includes(ctx.mpEnv) &&
-				shell.test('-e', fileName)
-			) {
+			if (!['weapp', 'qq', 'tt', 'alipay'].includes(ctx.mpEnv) && shell.test('-e', fileName)) {
 				const temp = shell.cat(fileName)
 				const tempConfig = toJSON(temp)
 				config = extend(true, config, tempConfig)
@@ -139,7 +142,7 @@ export default definePlugin((ctx) => {
 		}
 	}
 
-	ctx.onBuildFinish(() => build())
+	ctx.onBuildFinish(build)
 }, {
 	name: 'weejs-plugin-condition',
 	ignore: ['h5']
